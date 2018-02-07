@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import com.gildedrose.models.Item;
 import org.junit.Test;
 
 import java.util.Arrays;
