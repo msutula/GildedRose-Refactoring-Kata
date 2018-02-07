@@ -4,12 +4,12 @@ public abstract class QualityLogic {
 
     public abstract void updateItem(Item item);
 
-    protected void increaseQuality(Item item) {
-        if (item.quality < 50) item.quality += 1;
+    protected void increaseQuality(Item item, int quality) {
+        item.quality = Math.min(50, item.quality + quality);
     }
 
-    protected void decreaseQuality(Item item) {
-        if (item.quality > 0) item.quality -= 1;
+    protected void decreaseQuality(Item item, int quality) {
+        item.quality = Math.max(0, item.quality - quality);
     }
 
     protected void decreaseSellIn(Item item) {
