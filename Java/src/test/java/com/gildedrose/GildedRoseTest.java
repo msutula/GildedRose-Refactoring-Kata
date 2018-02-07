@@ -113,6 +113,26 @@ public class GildedRoseTest {
         this.assertEqualsItem(0, 80, app.logicalisedItems.get(0).getItem());
     }
 
+    @Test
+    public void conjuredItemsDegradeTwiceAsFast() {
+        this.logicalisedItems = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 10, 10, new ConjuredLogic());
+        this.app = new GildedRose(logicalisedItems);
+
+        app.updateQuality();
+
+        this.assertEqualsItem(9, 8, app.logicalisedItems.get(0).getItem());
+    }
+
+    @Test
+    public void conjuredItemsDegradeBy4AfterSellIn() {
+        this.logicalisedItems = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 0, 10, new ConjuredLogic());
+        this.app = new GildedRose(logicalisedItems);
+
+        app.updateQuality();
+
+        this.assertEqualsItem(-1, 6, app.logicalisedItems.get(0).getItem());
+    }
+
     private List<LogicalisedItem> createLogicalisedItemAsArray(String name, int sellIn, int quality, QualityLogic qualityLogic) {
         return Arrays.asList(new LogicalisedItem(new Item(name, sellIn, quality), qualityLogic));
     }
