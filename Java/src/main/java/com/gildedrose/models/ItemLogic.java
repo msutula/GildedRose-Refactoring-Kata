@@ -2,10 +2,14 @@ package com.gildedrose.models;
 
 public class ItemLogic extends QualityLogic {
 
+    public ItemLogic(Item item) {
+        super(item);
+    }
+
     @Override
-    public void updateItem(Item item) {
-        this.decreaseQuality(item, 1);
-        this.decreaseSellIn(item);
-        if (item.sellIn < 0) this.decreaseQuality(item, 1);
+    public void updateItem() {
+        this.decreaseQuality(1);
+        this.decreaseSellIn();
+        if (this.item.sellIn < 0) this.decreaseQuality(1);
     }
 }
