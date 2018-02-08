@@ -1,14 +1,24 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
 import com.gildedrose.models.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-class GildedRose {
+@Service
+public class GildedRose {
 
-    List<Item> items;
+    // Use setter & getter rather than public modifier
+    private List<Item> items;
 
-    public GildedRose(List<Item> items) {
+    public GildedRose() {
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
