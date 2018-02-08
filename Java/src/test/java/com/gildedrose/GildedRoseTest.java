@@ -1,6 +1,6 @@
 package com.gildedrose;
 
-import com.gildedrose.models.*;
+import com.gildedrose.models.Item;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -10,131 +10,131 @@ import static org.junit.Assert.assertEquals;
 
 public class GildedRoseTest {
 
-    private List<LogicalisedItem> logicalisedItems;
+    private List<Item> items;
     private GildedRose app;
 
     @Test
     public void itemCannotBeNegativeQuality() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Test Item", 1, 0, new ItemLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Test Item", 1, 0);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(0, 0, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(0, 0, app.items.get(0));
     }
 
     @Test
     public void itemDegradesFasterAfterQualityEnd() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Test Item", 0, 2, new ItemLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Test Item", 0, 2);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(-1, 0, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(-1, 0, app.items.get(0));
     }
 
     @Test
     public void agedBrieIncreasesInQuality() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Aged Brie", 1, 2, new AgedBrieLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Aged Brie", 1, 2);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(0, 3, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(0, 3, app.items.get(0));
     }
 
     @Test
     public void agedBrieIncreasesInQualityAfterExpiry() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Aged Brie", 0, 2, new AgedBrieLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Aged Brie", 0, 2);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(-1, 4, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(-1, 4, app.items.get(0));
     }
 
     @Test
     public void itemQualityCannotExceed50() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 20, 50, new BackstageLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 20, 50);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(19, 50, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(19, 50, app.items.get(0));
     }
 
     @Test
     public void backstageIncreasesBy1() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 15, 10, new BackstageLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 15, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(14, 11, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(14, 11, app.items.get(0));
     }
 
     @Test
     public void backstageIncreasesBy2() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 10, 10, new BackstageLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 10, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(9, 12, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(9, 12, app.items.get(0));
     }
 
     @Test
     public void backstageIncreasesBy3() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 5, 10, new BackstageLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 5, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(4, 13, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(4, 13, app.items.get(0));
     }
 
     @Test
     public void backstageDropsTo0() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 0, 10, new BackstageLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Backstage passes to a TAFKAL80ETC concert", 0, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(-1, 0, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(-1, 0, app.items.get(0));
     }
 
     @Test
     public void sulfurasDoesNotDegrade() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 0, 80, new SulfurasLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 0, 80);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(0, 80, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(0, 80, app.items.get(0));
     }
 
     @Test
     public void conjuredItemsDegradeTwiceAsFast() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 10, 10, new ConjuredLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Conjured item", 10, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(9, 8, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(9, 8, app.items.get(0));
     }
 
     @Test
     public void conjuredItemsDegradeBy4AfterSellIn() {
-        this.logicalisedItems = this.createLogicalisedItemAsArray("Sulfuras, Hand of Ragnaros", 0, 10, new ConjuredLogic());
-        this.app = new GildedRose(logicalisedItems);
+        this.items = this.createLogicalisedItemAsArray("Conjured item", 0, 10);
+        this.app = new GildedRose(items);
 
         app.updateQuality();
 
-        this.assertEqualsItem(-1, 6, app.logicalisedItems.get(0).getItem());
+        this.assertEqualsItem(-1, 6, app.items.get(0));
     }
 
-    private List<LogicalisedItem> createLogicalisedItemAsArray(String name, int sellIn, int quality, QualityLogic qualityLogic) {
-        return Arrays.asList(new LogicalisedItem(new Item(name, sellIn, quality), qualityLogic));
+    private List<Item> createLogicalisedItemAsArray(String name, int sellIn, int quality) {
+        return Arrays.asList(new Item(name, sellIn, quality));
     }
 
     private void assertEqualsItem(int sellIn, int quality, Item item) {

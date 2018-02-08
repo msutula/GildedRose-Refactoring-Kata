@@ -1,18 +1,29 @@
 package com.gildedrose.models;
 
+// Could use some better naming
 public abstract class QualityLogic {
 
-    public abstract void updateItem(Item item);
+    protected final Item item;
 
-    protected void increaseQuality(Item item, int quality) {
-        item.quality = Math.min(50, item.quality + quality);
+    public QualityLogic(Item item) {
+        this.item = item;
     }
 
-    protected void decreaseQuality(Item item, int quality) {
-        item.quality = Math.max(0, item.quality - quality);
+    public Item getItem() {
+        return item;
     }
 
-    protected void decreaseSellIn(Item item) {
-        item.sellIn -= 1;
+    public abstract void updateItem();
+
+    protected void increaseQuality(int quality) {
+        this.item.quality = Math.min(50, this.item.quality + quality);
+    }
+
+    protected void decreaseQuality(int quality) {
+        this.item.quality = Math.max(0, this.item.quality - quality);
+    }
+
+    protected void decreaseSellIn() {
+        this.item.sellIn -= 1;
     }
 }
